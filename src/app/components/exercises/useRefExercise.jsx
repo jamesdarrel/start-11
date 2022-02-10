@@ -3,9 +3,9 @@ import CollapseWrapper from "../common/collapse";
 const UseRefExercise = () => {
     const divRef = useRef();
     const handleClick = () => {
-        divRef.current.style.height = "150px";
-        divRef.current.style.width = "80px";
-        divRef.current.innerText = "text";
+        divRef.current.children[0].innerText = "text";
+        divRef.current.style.height = "80px";
+        divRef.current.style.width = "150px";
     };
     return (
         <CollapseWrapper title="Упражнение">
@@ -28,13 +28,7 @@ const UseRefExercise = () => {
             >
                 <small>Блок</small>
             </div>
-            <button
-                onClick={handleClick}
-                className="btn btn-secondary mt-2"
-                style={{
-                    color: "white",
-                }}
-            >
+            <button onClick={handleClick} className="btn btn-secondary my-4">
                 Изменить Блок!
             </button>
         </CollapseWrapper>

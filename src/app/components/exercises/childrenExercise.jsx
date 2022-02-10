@@ -1,23 +1,8 @@
 import React from "react";
-import CollapseWrapper from "../common/collapse";
 import PropTypes from "prop-types";
-
-const FormComponent = ({ children }) => {
-    // НЕ МОГУ ПОНЯТЬ КАК ТУТ ДОБАВИТЬ ЧТО-ЛИБО...
-    return React.Children.map(children, (child) => {
-        const config = {
-            ...child.props,
-        };
-        console.log(child.props);
-        return React.cloneElement(child, config);
-    });
-};
-FormComponent.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-    ]),
-};
+import CollapseWrapper from "../common/collapse";
+import Divider from "../common/divider";
+import SmallTitle from "../common/typografy/smallTitle";
 
 const ChildrenExercise = () => {
     return (
@@ -29,17 +14,38 @@ const ChildrenExercise = () => {
                 <code>React.Children.map</code> так и{" "}
                 <code>React.Children.toArray</code>
             </p>
-            <FormComponent>
+            <Divider />
+            <SmallTitle>Решение</SmallTitle>
+
+            <ComponentsList>
                 <Component />
                 <Component />
                 <Component />
-            </FormComponent>
+            </ComponentsList>
         </CollapseWrapper>
     );
 };
-
-const Component = () => {
-    return <div>Компонент списка</div>;
+const ComponentsList = ({ children }) => {
+    const arrayOfChildren = React.Children.toArray(children);
+    console.log(arrayOfChildren);
+    return React.Children.map(arrayOfChildren, (child) =>
+        React.cloneElement(child, {
+            ...child.props,
+            num: +child.key.replace(".", "") + 1
+        })
+    );
 };
-
+ComponentsList.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ])
+};
+const Component = ({ num }) => {
+    console.log(num);
+    return <div>{num} Компонент списка</div>;
+};
+Component.propTypes = {
+  num: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+};
 export default ChildrenExercise;
